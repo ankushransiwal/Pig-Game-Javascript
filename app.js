@@ -20,7 +20,7 @@ Change the game to follow these rules:
 
 
 
-var scores, prevRoundScore, roundScore, activePlayer, gamePlaying;
+var scores, prevRoundScore, roundScore, activePlayer, gamePlaying, finalScore;
 init();
 
 // Query Selector only selects the first thing it matches
@@ -51,7 +51,6 @@ document.querySelector('.btn-roll').addEventListener('click', function(){
 
         // 3. Update the round score IF the rolled number was not a 1
         
-        console.log(prevRoundScore,dice);
         if(dice === 6 && prevRoundScore === 6)
             nextPlayer();
         else if(dice !== 1) {
@@ -81,9 +80,10 @@ document.querySelector('.btn-hold').addEventListener('click', function(){
 
         // Update the UI
         document.querySelector('#score-'+activePlayer).textContent = scores[activePlayer];
-
+        
+        finalScore = document.getElementById('final').value;
         // Check if the player won the game
-        if(scores[activePlayer] >= 100){
+        if(scores[activePlayer] >= finalScore){
             // Update the Ui
             document.querySelector('#name-'+ activePlayer).textContent = 'Winner!';
             document.querySelector('.dice').style.display = 'none';
@@ -131,7 +131,7 @@ function init(){
     activePlayer = 0;
     gamePlaying = true;
     prevRoundScore = 0;
-    
+    finalScore = 100;
     // Setting the css of the dice class to none
     document.querySelector('.dice').style.display = 'none';
 
