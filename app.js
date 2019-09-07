@@ -20,7 +20,7 @@ Change the game to follow these rules:
 
 
 
-var scores, prevRoundScore, roundScore, activePlayer, gamePlaying, finalScore;
+var scores, roundScore, activePlayer, gamePlaying, finalScore;
 init();
 
 // Query Selector only selects the first thing it matches
@@ -42,21 +42,26 @@ document.querySelector('.btn-roll').addEventListener('click', function(){
     if(gamePlaying){
         
         // 1. Random number
-        var dice = Math.floor(Math.random() * 6) +1;
+        var dice1 = Math.floor(Math.random() * 6) +1;
+        var dice2 = Math.floor(Math.random() * 6) +1;
 
         // 2. Display the result
-        var diceDOM =  document.querySelector('.dice');
-        diceDOM.style.display = 'block';
-        diceDOM.src = 'dice-'+dice +'.png';
+        var diceDOM1 =  document.getElementById('dice-0');
+        var diceDOM2 =  document.getElementById('dice-1');
+
+        diceDOM1.style.display = 'block';
+        diceDOM1.src = 'dice-'+dice1 +'.png';
+        
+        diceDOM2.style.display = 'block';
+        diceDOM2.src = 'dice-'+dice2 +'.png';
 
         // 3. Update the round score IF the rolled number was not a 1
-        
-        if(dice === 6 && prevRoundScore === 6)
+        console.log(dice1,dice2);
+        if(dice1 === 6 && dice2 === 6)
             nextPlayer();
-        else if(dice !== 1) {
+        else if(dice1 !== 1 && dice2!== 1) {
             // Add score
-            roundScore += dice;
-            prevRoundScore = dice;
+            roundScore += (dice1 + dice2);
             document.querySelector('#current-'+activePlayer).textContent = roundScore;
         }
         else {
@@ -104,7 +109,7 @@ function nextPlayer(){
     // Using ternary operators instead of if else
         activePlayer === 1 ? activePlayer = 0 : activePlayer = 1;
         roundScore = 0;
-        prevRoundScore = 0;
+        
         
         document.getElementById('current-0').textContent = '0'
         document.getElementById('current-1').textContent = '0'
@@ -119,7 +124,8 @@ function nextPlayer(){
         // document.querySelector('.player-0-panel').classList.remove('active');
         //document.querySelector('.player-1-panel').classList.add('active');
         
-        document.querySelector('.dice').style.display = 'none';
+        document.getElementById('dice-0').style.display = 'none';
+        document.getElementById('dice-1').style.display = 'none';
 }
 
 // Not calling an anonymous function this time
@@ -130,10 +136,11 @@ function init(){
     roundScore = 0;
     activePlayer = 0;
     gamePlaying = true;
-    prevRoundScore = 0;
     finalScore = 100;
     // Setting the css of the dice class to none
-    document.querySelector('.dice').style.display = 'none';
+    document.getElementById('dice-0').style.display = 'none';
+    document.getElementById('dice-1').style.display = 'none';
+
 
     // Setting all the Initial score values to zero by using getElementByID
 
